@@ -15,7 +15,8 @@ end
 
 configure do 
 		init_db
-		@db.execute 'create table if not exists Posts
+		#если не существет то создаест таблицу if not exists
+		@db.execute 'create table if not exists Posts 
 		(
 			id integer primary key autoincrement,
 			created_date date,
@@ -36,5 +37,10 @@ end
 
 post '/new' do
 	@content = params[:content]
+	if @content.size == 0 
+		@error = 'Введите текст поста'
+		return erb :new	
+	end
+	
 	erb "Вы ввели следующие данные: #{@content}"
 end
