@@ -22,10 +22,15 @@ configure do
 			created_date date,
 			content text
 		)'
+
+		@db.execute 'create table if not exists Comments 
+		(
+			id integer primary key autoincrement,
+			created_date date,
+			content text,
+			id_post integer
+		)'
 end
-
-
-
 
 get '/' do
 	@results = @db.execute 'select * from Posts order by id desc'
@@ -52,4 +57,15 @@ get '/post/:id_post' do
 	@results = @db.execute 'select * from Posts where id = ?', [@id_post]
 	@row = @results[0]
 	erb :post
+end
+
+post '/post/:id_post' do 
+	@id_post = params[:id_post]
+	@content = params[:content]
+	if @content.size == 0 
+		@error = 'Введите текст комментария'
+		return erb " "	
+	end
+
+	erb "com #{@content} #{@id_post}"
 end
