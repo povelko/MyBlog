@@ -6,15 +6,28 @@
 		<th>Дата</th>
 	</tr>
 	<tr>	
-<% @results.each  do |x| %>
+<% @results_post.each  do |x| %>
 		<td> <%= x['id'] %> </td>
 		<td> <%= x['content'] %> </td>
 		<td> <%= x['created_date'] %> </td>
 	</tr>
 <% end %>
+	<tr>
+		<th>Номер</th>
+		<th><center>Комментарии</center></th>
+		<th>Дата</th>
+	</tr>
+<% @results_comments.each  do |x| %>
+	<tr>
+		<td> <%= x['comments_id'] %> </td>
+		<td> <%= x['comments_content'] %> </td>
+		<td> <%= x['comments_created_date'] %> </td>
+
+	</tr>
+	<% end %>
 </table>
 
-<h4>Комментарии</h4>
+<h1>Комментарии</h4>
 <h2>Добавить новый комментарий</h2>
 <p>
 	<form action="/post/<%= @row['id'] %>" method="Post">

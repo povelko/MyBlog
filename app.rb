@@ -54,8 +54,12 @@ end
 
 get '/post/:id_post' do
 	@id_post = params[:id_post]
-	@results = @db.execute 'select * from Posts where id = ?', [@id_post]
-	@row = @results[0]
+	@results_post = @db.execute 'select * from Posts where posts.id = ?', [@id_post]
+	@results_comments = @db.execute 'select comments.id as comments_id , comments.created_date as comments_created_date, 
+									comments.content as comments_content, Comments.id_post as Comments_id_post  from Posts 
+							left join Comments on Comments.id_post = Posts.id
+							where posts.id = ?', [@id_post]
+	@row = @results_post[0]
 	erb :post
 end
 
@@ -66,6 +70,7 @@ post '/post/:id_post' do
 		@error = 'Введите текст комментария'
 		return erb " "	
 	end
+		@db.execute 'insert into Comments (content, id_post, created_date) values (?, ?, datetime())', [@content, @id_post]
 
 	erb "com #{@content} #{@id_post}"
 end
