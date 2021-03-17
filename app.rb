@@ -71,6 +71,5 @@ post '/post/:id_post' do
 		return erb " "	
 	end
 		@db.execute 'insert into Comments (content, id_post, created_date) values (?, ?, datetime())', [@content, @id_post]
-
-	erb "com #{@content} #{@id_post}"
+redirect "/post/#{@id_post}"
 end
